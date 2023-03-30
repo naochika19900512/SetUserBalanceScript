@@ -2,11 +2,11 @@
 <root>
     <ConfigList>
         <ServerCommandExePath>C:\Program Files\PaperCut MF\server\bin\win\server-command.exe</ServerCommandExePath>
-        <AccountList>‰Šú,w“ü,Šw•”</AccountList>
+        <AccountList>åˆæœŸ,è³¼å…¥,å­¦éƒ¨</AccountList>
     </ConfigList>
     <GroupList>
         <Group>
-            <Label>Šw¶</Label>
+            <Label>å­¦ç”Ÿ</Label>
             <Point>200,,200</Point>
         </Group>
     </GroupList>
