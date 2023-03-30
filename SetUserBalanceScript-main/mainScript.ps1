@@ -8,7 +8,7 @@ $logFolder = Join-Path .\ "log"
 $falseLimit = $XML.GroupList.Group.Count
 $Time = (Get-Date).ToString("yyyy-MM-dd")
 
-<#$foldernameã§æŒ‡å®šã—ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç‰¹å®šã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚‹ã‹ã‚’ç¢ºèªã€‚ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒãªã„å ´åˆã¯ä½œæˆã™ã‚‹ã€‚#>
+<#$foldername‚Åw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚É“Á’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ª‚ ‚é‚©‚ğŠm”FBƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¢ê‡‚Íì¬‚·‚éB#>
  function confirm_directory($path){
     if(Test-Path $path){
         }else{
@@ -16,74 +16,74 @@ $Time = (Get-Date).ToString("yyyy-MM-dd")
         }
 }
 
-#ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
+#ƒƒOƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
 function log_file($LogString){
     $logfile =  $Time + "_" +  "setuserbalance.log"
     $logpath = Join-Path $logFolder $logfile
     $Now = Get-Date
-    # Log å‡ºåŠ›æ–‡å­—åˆ—ã«æ™‚åˆ»ã‚’ä»˜åŠ (YYYY/MM/DD HH:MM:SS.MMM $LogString)
+    # Log o—Í•¶š—ñ‚É‚ğ•t‰Á(YYYY/MM/DD HH:MM:SS.MMM $LogString)
     $Log = $Now.ToString("yyyy/MM/dd HH:mm:ss.fff") + " "
     $Log += $logstring
     Write-Output $Log | Out-File -FilePath $logpath -Encoding Default -append
 }
 
-#æˆåŠŸ/å¤±æ•—ã‚’è¨˜è¿°ã™ã‚‹é–¢æ•°
+#¬Œ÷/¸”s‚ğ‹Lq‚·‚éŠÖ”
 function resultMsg1($result){
     if($result){
-        return "INFO","ãƒã‚¤ãƒ³ãƒˆã‚’è¨­å®šã—ã¾ã—ãŸã€‚"
+        return "INFO","ƒ|ƒCƒ“ƒg‚ğİ’è‚µ‚Ü‚µ‚½B"
 }else{
-    return "ERROR","ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿè¡Œã«å¤±æ•—ã—ã¾ã—ãŸã€‚config.xmlã®è¨­å®šå†…å®¹ã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚"
+    return "ERROR","ƒRƒ}ƒ“ƒh‚ÌÀs‚É¸”s‚µ‚Ü‚µ‚½Bconfig.xml‚Ìİ’è“à—e‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B"
     }
 }
 
-#ãƒã‚¤ãƒ³ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹é–¢æ•°
+#ƒ|ƒCƒ“ƒg‚ğƒZƒbƒg‚·‚éŠÖ”
 function setUserPoint(){
 	foreach($user in $userList){
         $falseCount = 0
    		foreach($group in $XML.root.GroupList.Group){
-            if($user.ã‚°ãƒ«ãƒ¼ãƒ— -eq $group.Label){
+            if($user.ƒOƒ‹[ƒv -eq $group.Label){
                 $pointList = $group.Point.Split(",")
                 for ($i=0; $i -lt $pointList.Count; $i++){
                     if([string]::IsNullOrEmpty($accountList[0])){
                         if(($pointList[0] -ge 0) -and ($pointList.Length -le 1)){
-                            cmd /C $servercommand set-user-account-balance $user.åå‰ $pointList[0] ãƒã‚¤ãƒ³ãƒˆè¿½åŠ å‡¦ç†
+                            cmd /C $servercommand set-user-account-balance $user.–¼‘O $pointList[0] ƒ|ƒCƒ“ƒg’Ç‰Áˆ—
                             $result = echo $?
                             $info,$massage = resultMsg1($result)
-                            log_file($info,$user.åå‰,$group.Label,"ãƒ“ãƒ«ãƒˆã‚¤ãƒ³ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ",$pointList[0],$massage)
+                            log_file($info,$user.–¼‘O,$group.Label,"ƒrƒ‹ƒgƒCƒ“ƒAƒJƒEƒ“ƒg",$pointList[0],$massage)
                         }else{
-                            log_file("ERROR",$user.åå‰,$group.Label,"config.xml -> Pointã‚¿ã‚°ã«ä¸æ­£ãªå€¤ãŒæ¤œå‡ºã•ã‚Œã¾ã—ãŸã€‚å‡¦ç†ã‚’ä¸­æ–­ã—ã¾ã™ã€‚è¨­å®šã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚")
+                            log_file("ERROR",$user.–¼‘O,$group.Label,"config.xml -> Pointƒ^ƒO‚É•s³‚È’l‚ªŒŸo‚³‚ê‚Ü‚µ‚½Bˆ—‚ğ’†’f‚µ‚Ü‚·Bİ’è‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B")
                             exit
                         }
                     }else{
                         if($pointList[$i] -ge 0){
-                            cmd /C $servercommand set-user-account-balance $user.åå‰ $pointList[$i] ãƒã‚¤ãƒ³ãƒˆè¿½åŠ å‡¦ç† $accountList[$i]
+                            cmd /C $servercommand set-user-account-balance $user.–¼‘O $pointList[$i] ƒ|ƒCƒ“ƒg’Ç‰Áˆ— $accountList[$i]
                             $result = echo $?
                             $info,$massage = resultMsg1($result)
-                            log_file($info,$user.åå‰,$group.Label,$accountList[$i],$pointList[$i],$massage)
+                            log_file($info,$user.–¼‘O,$group.Label,$accountList[$i],$pointList[$i],$massage)
                         }else{
-                            log_file("INFO",$user.åå‰,$group.Label,"config.xml -> Pointã‚¿ã‚°ã®",$accountList[$i],"éƒ¨åˆ†ã«å€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ãªã„ãŸã‚ã€å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã—ã¾ã™ã€‚")
-                        }   
+                            log_file("INFO",$user.–¼‘O,$group.Label,"config.xml -> Pointƒ^ƒO‚Ì",$accountList[$i],"•”•ª‚É’l‚ª“ü—Í‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßAˆ—‚ğƒXƒLƒbƒv‚µ‚Ü‚·B")
+                        }
                     }
                  }
              }else{
                 $falseCount += 1
                 if($falseCount -eq $falseLimit){
-                    log_file("ERROR",$user.åå‰,"ä¸€è‡´ã™ã‚‹ã‚°ãƒ«ãƒ¼ãƒ—ãŒã‚ã‚Šã¾ã›ã‚“")
+                    log_file("ERROR",$user.–¼‘O,"ˆê’v‚·‚éƒOƒ‹[ƒv‚ª‚ ‚è‚Ü‚¹‚ñ")
                 }
             }
-        }			
+        }
     }
 }
 
-#logãƒ•ã‚©ãƒ«ãƒ€ã®ä½œæˆ
+#logƒtƒHƒ‹ƒ_‚Ìì¬
 confirm_directory($logFolder)
-#å‡¦ç†é–‹å§‹
+#ˆ—ŠJn
 log_file("<Start>")
 $pslogfile =  $Time + "_" +  "powershell.log"
 $pslogpath = Join-Path $logFolder $pslogfile
 Start-Transcript $pslogpath -Append
-#ãƒã‚¤ãƒ³ãƒˆè¨­å®šå‡¦ç†
+#ƒ|ƒCƒ“ƒgİ’èˆ—
 setUserPoint
-#å‡¦ç†çµ‚äº†
+#ˆ—I—¹
 log_file("<End>")
 Stop-Transcript
