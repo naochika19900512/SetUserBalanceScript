@@ -1,4 +1,5 @@
-﻿$XML = [XML](Get-Content -Encoding default .\config.xml)
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators")) { Start-Process powershell.exe "-File `"$PSCommandPath`"" -Verb RunAs; exit }
+$XML = [XML](Get-Content -Encoding default .\config.xml)
 $servercommand = $XML.root.ConfigList.ServerCommandExePath
 $accountList = $XML.root.ConfigList.AccountList.Split(",")
 $groupList= $XML.root.GroupList.Group
