@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="shift-jis"?>
+<root>
+    <ConfigList>
+        <ServerCommandExePath>C:\Program Files\PaperCut MF\server\bin\win\server-command.exe</ServerCommandExePath>
+        <AccountList>初期,購入,学部</AccountList>
+    </ConfigList>
+    <GroupList>
+        <Group>
+            <Label>学生</Label>
+            <Point>200,,200</Point>
+        </Group>
+    </GroupList>
+</root>
